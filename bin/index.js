@@ -17,7 +17,7 @@ async function commit_changes() {
     if (!gitmoji) {
         const { add_defaults } = await inquirer.prompt([
             {
-                type: 'input',
+                type: 'confirm',
                 name: 'add_defaults',
                 message: `You don\'t have ${cyan('gitmoji')} config in your package.json. Add defaults?`,
                 default: true
