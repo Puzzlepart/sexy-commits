@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.1.3-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.1.4-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -32,3 +32,12 @@ Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt 
   }
 }
 ```
+
+
+
+![image-20210326144343892](assets/image-20210326144343892.png)
+
+
+
+![image-20210326144354677](assets/image-20210326144354677.png)
+
