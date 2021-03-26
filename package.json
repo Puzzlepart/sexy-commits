@@ -1,7 +1,7 @@
 {
   "name": "sexy-commits",
-  "version": "0.1.2",
-  "description": "Sexy commits using gitmoji.dev",
+  "version": "0.1.3",
+  "description": "Sexy commits using gitmoji.dev and inquirer-autocomplete-prompt",
   "main": "bin/index.js",
   "bin": {
     "sexy-commits": "bin/index.js"
