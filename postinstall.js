@@ -7,5 +7,8 @@ packageJson.scripts['commit'] = 'sexy-commits'
 
 fs.writeFile(
     path.resolve(__dirname, './package.json'),
-    JSON.stringify(packageJson, null, 2)
+    JSON.stringify(packageJson, null, 2),
+    () => {
+        //
+    }
 )
