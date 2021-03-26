@@ -1,6 +1,6 @@
 {
   "name": "sexy-commits",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Sexy commits using gitmoji.dev and inquirer-autocomplete-prompt",
   "main": "bin/index.js",
   "bin": {
@@ -8,8 +8,7 @@
   },
   "scripts": {
     "commit": "node ./commit.js",
-    "postversion": "npx @appnest/readme generate && git add --all && git commit --amend && git push",
-    "postinstall": "node postinstall.js"
+    "postversion": "npx @appnest/readme generate && git add --all && git commit --amend && git push"
   },
   "repository": {
     "type": "git",
