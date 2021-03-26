@@ -6,8 +6,8 @@ const path = require('path')
 const util = require('util')
 const { cyan, white, red } = require('chalk')
 const log = console.log
-console.log(path.resolve(__dirname, '../../package.json'))
-const { commitlint, gitmoji } = require('../../package.json')
+console.log(path.resolve(__dirname, '../../../package.json'))
+const { commitlint, gitmoji } = require('../../../package.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 
