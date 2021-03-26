@@ -6,30 +6,14 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.0.11-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.1.0-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
-For now it needs both `commitlint.rules.type-enum` and `gitmoji` for the emoji mapping.
+Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt you for what you did and a prief explanation (used as commit message).
 
 ```json
 {
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ],
-    "rules": {
-      "type-enum": [
-        2,
-        "always",
-        [
-          "build",
-          "ci",
-          "chore"
-        ]
-      ]
-    }
-  },
   "gitmoji": {
     "build": [
       "🏗️",

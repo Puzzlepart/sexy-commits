@@ -7,7 +7,7 @@ const util = require('util')
 const { cyan, white, red } = require('chalk')
 const log = console.log
 console.log(path.resolve(__dirname, '../../../package.json'))
-const { commitlint, gitmoji } = require('../../../package.json')
+const { gitmoji } = require('../../../package.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 
@@ -17,17 +17,16 @@ async function commit_changes() {
             type: 'autocomplete',
             name: 'commit_prefix',
             message: 'What did you do?',
-            choices: commitlint.rules['type-enum'][2],
             source: async (_a, input) => {
-                const type_enums = commitlint.rules['type-enum'][2]
-                return type_enums
+                const types = Object.keys(gitmoji)
+                return types
                     .filter(
-                        (type_enum) =>
-                            type_enum.toLowerCase().indexOf((input || '').toLowerCase()) !== -1
+                        (type) =>
+                            type.toLowerCase().indexOf((input || '').toLowerCase()) !== -1
                     )
-                    .map((type_enum) => ({
-                        value: type_enum,
-                        name: gitmoji[type_enum].join('\t')
+                    .map((type) => ({
+                        value: type,
+                        name: gitmoji[type].join('\t')
                     }))
             },
         },
