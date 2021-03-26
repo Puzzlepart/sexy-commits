@@ -1,0 +1,29 @@
+{
+  "name": "sexy-commits",
+  "version": "0.0.1",
+  "description": "Sexy commits using gitmoji.dev",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Puzzlepart/sexy-commits.git"
+  },
+  "keywords": [
+    "sexy",
+    "commits",
+    "git"
+  ],
+  "author": "olemp",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Puzzlepart/sexy-commits/issues"
+  },
+  "homepage": "https://github.com/Puzzlepart/sexy-commits#readme",
+  "dependencies": {
+    "chalk": "4.1.0",
+    "inquirer": "7.3.3",
+    "inquirer-autocomplete-prompt": "1.3.0"
+  }
+}
