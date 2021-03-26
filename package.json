@@ -1,8 +1,11 @@
 {
   "name": "sexy-commits",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sexy commits using gitmoji.dev",
   "main": "index.js",
+  "bin": {
+    "sexy-commits": "index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
