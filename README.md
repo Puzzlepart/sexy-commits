@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.1.4-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.1.5-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -34,10 +34,13 @@ Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt 
 ```
 
 
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#this-is-how-it-works)
 
+## ➤ This is how it works
+
+### Select what you did
 ![image-20210326144343892](assets/image-20210326144343892.png)
 
-
-
+### Describe it
 ![image-20210326144354677](assets/image-20210326144354677.png)
 
