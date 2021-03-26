@@ -1,6 +1,6 @@
 {
   "name": "sexy-commits",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Sexy commits using gitmoji.dev",
   "main": "bin/index.js",
   "bin": {
