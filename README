@@ -1,0 +1,11 @@
+[[template:description]]
+
+[![version](https://img.shields.io/badge/version-[[pkg.version]]-green.svg)](https://semver.org)
+
+<!-- <details>
+<summary>📖 Table of Contents</summary>
+<br />
+[[ template:toc ]]
+</details> -->
+
+[[ template:contributors ]]

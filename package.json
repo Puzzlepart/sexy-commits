@@ -1,13 +1,13 @@
 {
   "name": "sexy-commits",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Sexy commits using gitmoji.dev",
   "main": "bin/index.js",
   "bin": {
     "sexy-commits": "bin/index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postversion": "npx @appnest/readme generate && git add --all && git commit --amend"
   },
   "repository": {
     "type": "git",

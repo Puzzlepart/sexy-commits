@@ -1,0 +1,13 @@
+{
+  "package": "package.json",
+  "blueprint": "README",
+  "input": "README",
+  "output": "README.md",
+  "placeholder": ["[[", "]]"],
+  "documentationConfig": {
+    "markdown": {
+      "titleLevel": 2
+    }
+  },
+  "line": "rainbow"
+}
