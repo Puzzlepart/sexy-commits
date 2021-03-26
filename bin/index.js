@@ -39,6 +39,12 @@ async function commit_changes() {
     }
     const input = await inquirer.prompt([
         {
+            type: 'input',
+            name: 'add_changes',
+            message: 'What changes do you want to include?',
+            default: 'all'
+        },
+        {
             type: 'autocomplete',
             name: 'commit_prefix',
             message: 'What did you do?',
@@ -69,7 +75,8 @@ async function commit_changes() {
     ])
     let commit_message = `${input.commit_prefix}: ${input.commit_message.toLowerCase()}`
     try {
-        await exec('git add --all')
+        if(input.add_changes === 'all') await exec('git add --all')
+        else await exec(`git add "*${input.add_changes}*"`)
         if (gitmoji[input.commit_prefix]) {
             commit_message += ` ${gitmoji[input.commit_prefix][0]}`
         }
