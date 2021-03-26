@@ -4,6 +4,11 @@
   "input": "README",
   "output": "README.md",
   "placeholder": ["[[", "]]"],
+  "logo": {
+    "src": "./logo.png",
+    "width": 323,
+    "height": 113
+  },
   "documentationConfig": {
     "markdown": {
       "titleLevel": 2
