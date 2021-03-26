@@ -19,7 +19,7 @@ async function commit_changes() {
             {
                 type: 'input',
                 name: 'add_defaults',
-                message: `You don\'t have ${cyan(gitmoji)} config in your package.json. Add defaults?`,
+                message: `You don\'t have ${cyan('gitmoji')} config in your package.json. Add defaults?`,
                 default: true
             }
         ])
