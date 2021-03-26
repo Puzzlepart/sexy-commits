@@ -41,7 +41,7 @@ async function commit_changes() {
             name: 'commit_prefix',
             message: 'What did you do?',
             source: async (_a, input) => {
-                const types = Object.keys(packageJson.gitmoji)
+                const types = Object.keys(gitmoji)
                 return types
                     .filter(
                         (type) =>
