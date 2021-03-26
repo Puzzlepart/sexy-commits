@@ -32,7 +32,7 @@ async function commit_changes() {
         {
             type: 'input',
             name: 'commit_message',
-            message: 'Enter a commit message:'
+            message: 'A short summary of what you changed:'
         },
         {
             type: 'confirm',
