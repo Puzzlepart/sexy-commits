@@ -6,6 +6,7 @@ const util = require('util')
 const { cyan, white, red } = require('chalk')
 const log = console.log
 const fs = require('fs')
+const path = require('path')
 const packageJson = require('../../../package.json')
 const { gitmoji: default_config } = require('./default_config.json')
 const child_process = require('child_process')
@@ -26,10 +27,12 @@ async function commit_changes() {
         if (!add_defaults) {
             process.exit(0)
         }
-        await writeFileAsync('../../../package.json', JSON.stringify({
-            ...packageJson,
-            gitmoji: default_config
-        }, null, 2))
+        await writeFileAsync(
+            path.resolve(__dirname, '../../../package.json'),
+            JSON.stringify({
+                ...packageJson,
+                gitmoji: default_config
+            }, null, 2))
         gitmoji = default_config
     }
     const input = await inquirer.prompt([
