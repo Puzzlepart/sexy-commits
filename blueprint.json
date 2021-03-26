@@ -5,7 +5,7 @@
   "output": "README.md",
   "placeholder": ["[[", "]]"],
   "logo": {
-    "src": "./logo.png",
+    "src": "logo.png",
     "width": 323,
     "height": 113
   },

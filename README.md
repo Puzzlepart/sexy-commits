@@ -1,4 +1,6 @@
 <!-- ⚠️ This README has been generated from the file(s) "README" ⚠️--><p align="center">
+  <img src="logo.png" alt="Logo" width="323" height="113" />
+</p> <p align="center">
   <b>Sexy commits using gitmoji.dev</b></br>
   <sub><sub>
 </p>
@@ -6,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.1.1-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.1.2-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
