@@ -1,9 +1,11 @@
+#!/usr/bin/env node
+"use strict";
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const util = require('util')
 const { cyan, white, red } = require('chalk')
 const log = console.log
-const { commitlint, gitmoji } = require('./package.json')
+const { commitlint, gitmoji } = require('../package.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 
