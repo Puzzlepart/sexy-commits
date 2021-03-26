@@ -16,23 +16,34 @@ const writeFileAsync = util.promisify(fs.writeFile)
 async function commit_changes() {
     let { gitmoji } = packageJson
     if (!gitmoji) {
-        const { add_defaults } = await inquirer.prompt([
+        const { add_defaults, add_commit_script } = await inquirer.prompt([
             {
                 type: 'confirm',
                 name: 'add_defaults',
                 message: `You don\'t have ${cyan('gitmoji')} config in your package.json. Add defaults?`,
+                default: true
+            },
+            {
+                type: 'confirm',
+                name: 'add_commit_script',
+                message: 'Add npm script?',
                 default: true
             }
         ])
         if (!add_defaults) {
             process.exit(0)
         }
+        const newPackageJson = {
+            ...packageJson,
+            gitmoji: default_config
+        }
+        if (key === 'scripts' && add_commit_script) {
+            newPackageJson.scripts['commit'] = 'sexy-commits'
+        }
         await writeFileAsync(
             path.resolve(__dirname, '../../../package.json'),
-            JSON.stringify({
-                ...packageJson,
-                gitmoji: default_config
-            }, null, 2))
+            JSON.stringify(newPackageJson, null, 2)
+        )
         gitmoji = default_config
     }
     const input = await inquirer.prompt([
