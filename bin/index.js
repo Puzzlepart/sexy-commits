@@ -12,8 +12,12 @@ const { gitmoji: default_config } = require('./default_config.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 const writeFileAsync = util.promisify(fs.writeFile)
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const argv = yargs(hideBin(process.argv)).argv
 
 async function commit_changes() {
+    const [add_changes, commit_prefix] = argv._
     let { gitmoji } = packageJson
     if (!gitmoji) {
         const { add_defaults } = await inquirer.prompt([
@@ -37,19 +41,20 @@ async function commit_changes() {
         )
         gitmoji = default_config
     }
+    const types = Object.keys(gitmoji)
     const input = await inquirer.prompt([
         {
             type: 'input',
             name: 'add_changes',
             message: 'What changes do you want to include?',
-            default: 'all'
+            default: 'all',
+            when: !add_changes
         },
         {
             type: 'autocomplete',
             name: 'commit_prefix',
             message: 'What did you do?',
             source: async (_a, input) => {
-                const types = Object.keys(gitmoji)
                 return types
                     .filter(
                         (type) =>
@@ -60,6 +65,7 @@ async function commit_changes() {
                         name: gitmoji[type].join('\t')
                     }))
             },
+            when: !types.includes(commit_prefix)
         },
         {
             type: 'input',
@@ -73,15 +79,16 @@ async function commit_changes() {
             default: true
         }
     ])
-    let commit_message = `${input.commit_prefix}: ${input.commit_message.toLowerCase()}`
+    let mergedInput = Object.assign({ add_changes, commit_prefix }, input)
+    let commit_message = `${mergedInput.commit_prefix}: ${mergedInput.commit_message.toLowerCase()}`
     try {
-        if(input.add_changes === 'all') await exec('git add --all')
-        else await exec(`git add "*${input.add_changes}*"`)
-        if (gitmoji[input.commit_prefix]) {
-            commit_message += ` ${gitmoji[input.commit_prefix][0]}`
+        if(mergedInput.add_changes === 'all') await exec('git add --all')
+        else await exec(`git add "*${mergedInput.add_changes}*"`)
+        if (gitmoji[mergedInput.commit_prefix]) {
+            commit_message += ` ${gitmoji[mergedInput.commit_prefix][0]}`
         }
         await exec(`git commit -m "${commit_message}" --no-verify`)
-        if (input.push) {
+        if (mergedInput.push) {
             await exec('git pull')
             await exec('git push')
         }
