@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.1.20-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.2.0-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -38,9 +38,60 @@ Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt 
 
 ## ➤ This is how it works
 
+### Add npm script
+
+Add npm script `commit` that runs `sexy-commits`.
+
+```json
+{
+  "scripts": {
+    "commit": "sexy-commits"
+  }
+}
+```
+
+
+### Run the script
+
+```shell
+npm run commit
+```
+
+
+
 ### Select what you did
+
 ![image-20210326144343892](assets/image-20210326144343892.png)
 
 ### Enter a short summary
+
 ![image-20210326144354677](assets/image-20210326144354677.png)
 
+### With arguments
+
+You can also call run `sexy-commits`with args.
+
+```shelll
+npm run commit [add] [type]
+```
+
+
+Where **[add]** is what do add - either `all`or a pattern, and **[type]** is what kind of change you did (depends on your `gitmoji` config).
+
+#### Example 1
+
+You did a **fix** and want to commit **all changes**:
+
+```shell
+npm run commit all fix
+```
+
+
+
+#### Example 2
+
+You did a **style** adjustment and want to commit only what's in the **theme** folder.
+
+```shell
+npm run commit style theme
+```
