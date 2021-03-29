@@ -19,9 +19,6 @@ const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 async function commit_changes() {
-    if (process.env.SEXY_COMMITS_NSFW !== '1') {
-        log(cyan(await readFileAsync(path.resolve(__dirname, 'banner.txt'))).toString())
-    }
     const [
         add_changes,
         commit_prefix,
