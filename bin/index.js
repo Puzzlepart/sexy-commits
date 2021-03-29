@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 "use strict";
+require('dotenv').config()
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const util = require('util')
@@ -12,12 +13,20 @@ const { gitmoji: default_config } = require('./default_config.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 const writeFileAsync = util.promisify(fs.writeFile)
+const readFileAsync = util.promisify(fs.readFile)
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 async function commit_changes() {
-    const [add_changes, commit_prefix] = argv._
+    if (process.env.SEXY_COMMITS_NSFW !== '1') {
+        log(cyan(await readFileAsync(path.resolve(__dirname, 'banner.txt'))).toString())
+    }
+    const [
+        add_changes,
+        commit_prefix,
+        commit_message
+    ] = argv._
     let { gitmoji } = packageJson
     if (!gitmoji) {
         const { add_defaults } = await inquirer.prompt([
@@ -70,7 +79,8 @@ async function commit_changes() {
         {
             type: 'input',
             name: 'commit_message',
-            message: 'A short summary of what you changed:'
+            message: 'A short summary of what you changed:',
+            when: !commit_message
         },
         {
             type: 'confirm',
@@ -80,19 +90,19 @@ async function commit_changes() {
         }
     ])
     let mergedInput = Object.assign({ add_changes, commit_prefix }, input)
-    let commit_message = `${mergedInput.commit_prefix}: ${mergedInput.commit_message.toLowerCase()}`
+    let commit_message_with_prefix = `${mergedInput.commit_prefix}: ${mergedInput.commit_message.toLowerCase()}`
     try {
-        if(mergedInput.add_changes === 'all') await exec('git add --all')
+        if (mergedInput.add_changes === 'all') await exec('git add --all')
         else await exec(`git add "*${mergedInput.add_changes}*"`)
         if (gitmoji[mergedInput.commit_prefix]) {
-            commit_message += ` ${gitmoji[mergedInput.commit_prefix][0]}`
+            commit_message_with_prefix += ` ${gitmoji[mergedInput.commit_prefix][0]}`
         }
-        await exec(`git commit -m "${commit_message}" --no-verify`)
+        await exec(`git commit -m "${commit_message_with_prefix}" --no-verify`)
         if (mergedInput.push) {
             await exec('git pull')
             await exec('git push')
         }
-        log(cyan(`\nSuccesfully commited changes with message:\n\n${white(commit_message)}\n`))
+        log(cyan(`\nSuccesfully commited changes with message:\n\n${white(commit_message_with_prefix)}\n`))
     } catch (error) {
         log(red('An error occured commiting your changes.'))
     } finally {

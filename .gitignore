@@ -1,3 +1,4 @@
 node_modules
 package-lock.json
 commit.js
+.env

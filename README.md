@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.2.0-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.2.1-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -72,7 +72,7 @@ npm run commit
 You can also call run `sexy-commits`with args.
 
 ```shelll
-npm run commit [add] [type]
+npm run commit [add] [type] [messaee]
 ```
 
 
@@ -93,5 +93,13 @@ npm run commit all fix
 You did a **style** adjustment and want to commit only what's in the **theme** folder.
 
 ```shell
-npm run commit style theme
+npm run commit style theme "updated dark theme"
 ```
+
+
+
+### NSFW
+
+Don't want that ASCII lady? Set **SEXY_COMMITS_NSFW** to **1** in your environment file.
+
+![image-20210329114241281](assets/image-20210329114241281.png)
