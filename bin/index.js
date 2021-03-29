@@ -89,7 +89,7 @@ async function commit_changes() {
             default: true
         }
     ])
-    let mergedInput = Object.assign({ add_changes, commit_prefix }, input)
+    let mergedInput = Object.assign({ add_changes, commit_prefix, commit_message }, input)
     let commit_message_with_prefix = `${mergedInput.commit_prefix}: ${mergedInput.commit_message.toLowerCase()}`
     try {
         if (mergedInput.add_changes === 'all') await exec('git add --all')
