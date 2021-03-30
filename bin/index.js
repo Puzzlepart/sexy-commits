@@ -30,7 +30,7 @@ function parseArgs(gitmoji) {
         commit_type,
         message
     ] = argv._
-    if (types[commit_type]) {
+    if (types.indexOf(commit_type) !== -1) {
         return {
             add_pattern,
             commit_type,
