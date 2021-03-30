@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 "use strict";
-require('dotenv').config()
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const util = require('util')
@@ -8,29 +7,63 @@ const { cyan, white, red } = require('chalk')
 const log = console.log
 const fs = require('fs')
 const path = require('path')
-const packageJson = require('../../../package.json')
-const { gitmoji: default_config } = require('./default_config.json')
+const packageJson = require('./package.json')
+const { gitmoji: default_config } = require('./bin/default_config.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
 const writeFileAsync = util.promisify(fs.writeFile)
-const readFileAsync = util.promisify(fs.readFile)
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
-async function commit_changes() {
+/**
+ * Parse args using `argv`
+ * 
+ * @param gitmoji - Gitmoji config
+ * 
+ * @returns `add_pattern`, `commit_type` and `message`
+ */
+function parseArgs(gitmoji) {
+    const types = Object.keys(gitmoji)
     const [
-        add_changes,
-        commit_prefix,
-        commit_message
+        add_pattern,
+        commit_type,
+        message
     ] = argv._
+    if (types[commit_type]) {
+        return {
+            add_pattern,
+            commit_type,
+            message
+        }
+    } else {
+        const [_commit_type] = types.filter(key => {
+            const [, , alias] = gitmoji[key]
+            return alias && alias.length && alias.indexOf(commit_type) !== -1
+        })
+        if (!_commit_type) {
+            log(cyan.yellow(`Commit type ${cyan(commit_type)} not found in your ${cyan('gitmoji')} config 😞`))
+            process.exit(0)
+        }
+        return {
+            add_pattern,
+            commit_type: _commit_type,
+            message
+        }
+    }
+}
+
+/**
+ * Commit changes using arguments and prompts
+ */
+async function commit_changes() {
     let { gitmoji } = packageJson
     if (!gitmoji) {
         const { add_defaults } = await inquirer.prompt([
             {
                 type: 'confirm',
                 name: 'add_defaults',
-                message: `You don\'t have ${cyan('gitmoji')} config in your package.json. Add defaults?`,
+                message: `You don\'t have ${cyan('gitmoji')} config in your package.json. Add defaults? 🤝`,
                 default: true
             }
         ])
@@ -47,18 +80,18 @@ async function commit_changes() {
         )
         gitmoji = default_config
     }
-    const types = Object.keys(gitmoji)
-    const input = await inquirer.prompt([
+    const args = parseArgs(gitmoji)
+    const prompts = await inquirer.prompt([
         {
             type: 'input',
-            name: 'add_changes',
+            name: 'add_pattern',
             message: 'What changes do you want to include?',
             default: 'all',
-            when: !add_changes
+            when: !args.add_pattern
         },
         {
             type: 'autocomplete',
-            name: 'commit_prefix',
+            name: 'commit_type',
             message: 'What did you do?',
             source: async (_a, input) => {
                 return types
@@ -71,13 +104,13 @@ async function commit_changes() {
                         name: gitmoji[type].join('\t')
                     }))
             },
-            when: !types.includes(commit_prefix)
+            when: !args.commit_type
         },
         {
             type: 'input',
-            name: 'commit_message',
+            name: 'message',
             message: 'A short summary of what you changed:',
-            when: !commit_message
+            when: !args.message
         },
         {
             type: 'confirm',
@@ -86,20 +119,20 @@ async function commit_changes() {
             default: true
         }
     ])
-    let mergedInput = Object.assign({ add_changes, commit_prefix, commit_message }, input)
-    let commit_message_with_prefix = `${mergedInput.commit_prefix}: ${mergedInput.commit_message.toLowerCase()}`
+    const input = Object.assign(args, prompts)
+    let commit_message = `${input.commit_type}: ${input.message.toLowerCase()}`
     try {
-        if (mergedInput.add_changes === 'all') await exec('git add --all')
-        else await exec(`git add "*${mergedInput.add_changes}*"`)
-        if (gitmoji[mergedInput.commit_prefix]) {
-            commit_message_with_prefix += ` ${gitmoji[mergedInput.commit_prefix][0]}`
+        if (input.add_pattern === 'all') await exec('git add --all')
+        else await exec(`git add "*${input.add_pattern}*"`)
+        if (gitmoji[input.commit_type]) {
+            commit_message += ` ${gitmoji[input.commit_type][0]}`
         }
-        await exec(`git commit -m "${commit_message_with_prefix}" --no-verify`)
-        if (mergedInput.push) {
+        await exec(`git commit -m "${commit_message}" --no-verify`)
+        if (input.push) {
             await exec('git pull')
             await exec('git push')
         }
-        log(cyan(`\nSuccesfully commited changes with message:\n\n${white(commit_message_with_prefix)}\n`))
+        log(cyan(`\nSuccesfully commited changes with message:\n\n${white(commit_message)}\n`))
     } catch (error) {
         log(red('An error occured commiting your changes.'))
     } finally {
