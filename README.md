@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.3.2-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.3.4-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -72,7 +72,7 @@ npm run commit
 You can also call run `sexy-commits`with args.
 
 ```shell
-npm run commit [add] [type] [messaee]
+npm run commit [add] [type] [message]
 ```
 
 
