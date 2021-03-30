@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.3.0-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.3.1-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -71,7 +71,7 @@ npm run commit
 
 You can also call run `sexy-commits`with args.
 
-```shelll
+```shell
 npm run commit [add] [type] [messaee]
 ```
 
@@ -95,3 +95,33 @@ You did a **style** adjustment and want to commit only what's in the **theme** f
 ```shell
 npm run commit style theme "updated dark theme"
 ```
+
+### Alias support
+
+With `v0.3.1`we introduces alias support. Add a third element to your gitmoji config which is an array of aliases. Here you can see we mapped `build` to **ci** and `boring`and `chores`to **chore**.
+
+```json
+{
+  "gitmoji": {
+    "ci": [
+      "👷",
+      "Add or update CI build system",
+      ["build"]
+    ],
+    "chore": [
+      "💄",
+      "Boring chores",
+      ["boring", "chores"]
+    ]
+  }
+}
+```
+
+#### Example 1
+
+You can now do the following:
+
+```shell
+npm run commit boring "it's so boring to use regular git commits"
+```
+
