@@ -61,7 +61,7 @@ npm run commit
 You can also call run `sexy-commits`with args.
 
 ```shell
-npm run commit [add] [type] [messaee]
+npm run commit [add] [type] [message]
 ```
 
 

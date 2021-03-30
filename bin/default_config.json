@@ -1,11 +1,11 @@
 {
   "gitmoji": {
     "build": ["🏗️", "Make architectural changes"],
-    "ci": ["👷", "Add or update CI build system"],
-    "chore": ["💄", "Boring chores"],
-    "docs": ["📝", "Added or updated documentation"],
+    "ci": ["👷", "Add or update CI build system",["integration"]],
+    "chore": ["💄", "Boring chores",["boring", "stuff"]],
+    "docs": ["📝", "Added or updated documentation",["doc","dox"]],
     "feat": ["✨", "Introduced new features"],
-    "fix": ["🐛", "Fixed a bug"],
+    "fix": ["🐛", "Fixed a bug",["bugfix"]],
     "perf": ["⚡", "Improved performance"],
     "refactor": ["♻️", "Refactored code"],
     "revert": ["⏪", "Reverted changes"],

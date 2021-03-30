@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-"use strict";
+"use strict"
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
 const util = require('util')
@@ -7,7 +7,7 @@ const { cyan, white, red } = require('chalk')
 const log = console.log
 const fs = require('fs')
 const path = require('path')
-const packageJson = require('../../../package.json')
+const packageJson = require(process.env.PWD + '/package.json')
 const { gitmoji: default_config } = require('./default_config.json')
 const child_process = require('child_process')
 const exec = util.promisify(child_process.exec)
@@ -30,7 +30,7 @@ function parseArgs(gitmoji) {
         commit_type,
         message
     ] = argv._
-    if (types.indexOf(commit_type) !== -1) {
+    if (types.indexOf(commit_type) !== -1 || !commit_type) {
         return {
             add_pattern,
             commit_type,
@@ -39,7 +39,7 @@ function parseArgs(gitmoji) {
     } else {
         const [_commit_type] = types.filter(key => {
             const [, , alias] = gitmoji[key]
-            return alias && alias.length && alias.indexOf(commit_type) !== -1
+            return alias && alias.length && !!(alias.indexOf(commit_type) !== -1)
         })
         if (!_commit_type) {
             log(cyan.yellow(`Commit type ${cyan(commit_type)} not found in your ${cyan('gitmoji')} config 😞`))
@@ -75,11 +75,12 @@ async function commit_changes() {
             gitmoji: default_config
         }
         await writeFileAsync(
-            path.resolve(__dirname, '../../../package.json'),
+            path.resolve(__dirname, process.env.PWD + '/package.json'),
             JSON.stringify(newPackageJson, null, 2)
         )
         gitmoji = default_config
     }
+    const types = Object.keys(gitmoji)
     const args = parseArgs(gitmoji)
     const prompts = await inquirer.prompt([
         {
