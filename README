@@ -4,7 +4,7 @@
 
 Sexy commits using your config from `package.json`.
 
-Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt you for what you did and a prief explanation (used as commit message).
+Uses `gitmoji` mapping config from your `package.json` and `inquirer` to prompt you for what you did and a brief explanation (used as commit message).
 
 ```json
 {
