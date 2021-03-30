@@ -24,32 +24,38 @@ const argv = yargs(hideBin(process.argv)).argv
  * @returns `add_pattern`, `commit_type` and `message`
  */
 function parseArgs(gitmoji) {
-    const types = Object.keys(gitmoji)
-    const [
-        add_pattern,
-        commit_type,
-        message
-    ] = argv._
-    if (types.indexOf(commit_type) !== -1 || !commit_type) {
-        return {
+    try {
+        const types = Object.keys(gitmoji)
+        const [
             add_pattern,
             commit_type,
-            message
+            ...message_
+        ] = argv._
+        const message = message_.join(' ')
+        if (!commit_type || types.indexOf(commit_type) !== -1) {
+            return {
+                add_pattern,
+                commit_type,
+                message
+            }
+        } else {
+            const [_commit_type] = types.filter(key => {
+                const [, , alias] = gitmoji[key]
+                return alias && alias.length && !!(alias.indexOf(commit_type) !== -1)
+            })
+            if (!_commit_type) {
+                log(cyan.yellow(`Commit type ${cyan(commit_type)} not found in your ${cyan('gitmoji')} config 😞`))
+                process.exit(0)
+            }
+            return {
+                add_pattern,
+                commit_type: _commit_type,
+                message
+            }
         }
-    } else {
-        const [_commit_type] = types.filter(key => {
-            const [, , alias] = gitmoji[key]
-            return alias && alias.length && !!(alias.indexOf(commit_type) !== -1)
-        })
-        if (!_commit_type) {
-            log(cyan.yellow(`Commit type ${cyan(commit_type)} not found in your ${cyan('gitmoji')} config 😞`))
-            process.exit(0)
-        }
-        return {
-            add_pattern,
-            commit_type: _commit_type,
-            message
-        }
+    } catch {
+        log(cyan.yellow('We couldn\'t parse your arguments 😞'))
+        return {}
     }
 }
 
@@ -75,7 +81,7 @@ async function commit_changes() {
             gitmoji: default_config
         }
         await writeFileAsync(
-            path.resolve(__dirname, process.env.PWD + '/package.json'),
+            path.resolve(process.env.PWD, 'package.json'),
             JSON.stringify(newPackageJson, null, 2)
         )
         gitmoji = default_config
