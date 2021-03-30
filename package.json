@@ -43,7 +43,8 @@
     ],
     "chore": [
       "💄",
-      "Boring chores"
+      "Boring chores",
+      ["chores", "boring"]
     ],
     "docs": [
       "📝",
