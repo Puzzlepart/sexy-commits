@@ -8,7 +8,8 @@
   },
   "scripts": {
     "commit": "node ./commit.js",
-    "postversion": "npx @appnest/readme generate && git add --all && git commit --amend && git push && npm publish"
+    "postversion": "npx @appnest/readme generate && git add --all && git commit --amend && git push && npm publish",
+    "xo": "xo --fix --semicolon false --prettier true"
   },
   "repository": {
     "type": "git",
@@ -117,5 +118,8 @@
       "✏️",
       "Adjusted code syntax"
     ]
+  },
+  "devDependencies": {
+    "xo": "^0.38.2"
   }
 }
