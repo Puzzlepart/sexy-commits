@@ -18,7 +18,22 @@
   "keywords": [
     "sexy",
     "commits",
-    "git"
+    "git",
+    "fun",
+    "prefix",
+    "chores"
+  ],
+  "contributors": [
+    {
+      "name": "Ole Martin Pettersen",
+      "email": "olemp@puzzlepart.com",
+      "img": "https://avatars.githubusercontent.com/u/7606007?&size=130"
+    },
+    {
+      "name": "Carl Joakim Damsleth",
+      "email": "carl.joakim.damsleth@puzzlepart.com",
+      "img": "https://avatars.githubusercontent.com/u/7300548?&size=130"
+    }
   ],
   "author": "olemp",
   "license": "ISC",

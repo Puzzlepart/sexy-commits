@@ -125,3 +125,14 @@ You can now do the following:
 npm run commit boring "it's so boring to use regular git commits"
 ```
 
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#contributors)
+
+## ➤ Contributors
+	
+
+| [<img alt="Ole Martin Pettersen" src="https://avatars.githubusercontent.com/u/7606007?&size=130" width="100">](undefined) | [<img alt="Carl Joakim Damsleth" src="https://avatars.githubusercontent.com/u/7300548?&size=130" width="100">](undefined) |
+|:--------------------------------------------------:|:--------------------------------------------------:|
+| [Ole Martin Pettersen](undefined)                | [Carl Joakim Damsleth](undefined)                |
+| [olemp@puzzlepart.com](mailto:olemp@puzzlepart.com) | [carl.joakim.damsleth@puzzlepart.com](mailto:carl.joakim.damsleth@puzzlepart.com) |
+ 
