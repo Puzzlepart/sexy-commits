@@ -83,7 +83,7 @@ async function run() {
 			process.exit(0)
 		}
 
-		const newPackageJson = {
+		const newPackageJson = {	
 			...packageJson,
 			gitmoji: defaultConfig
 		}
@@ -96,7 +96,7 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
-	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH && process.env.SEXY_COMMITS_AUTO_PUSH === '1'
+	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const prompts = await inquirer.prompt([
 		{
 			type: 'input',
@@ -132,10 +132,10 @@ async function run() {
 			name: 'push',
 			message: 'Do you want to push the changes right away?',
 			default: true,
-			when: autoPush === undefined
+			when: !autoPush
 		}
 	])
-	const input = Object.assign({ args, push: autoPush }, prompts)
+	const input = Object.assign({ ...args, push: autoPush }, prompts)
 	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
 	try {
 		await (input.addPattern === 'all'
