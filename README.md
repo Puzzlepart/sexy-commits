@@ -126,7 +126,7 @@ npm run commit boring "it's so boring to use regular git commits"
 ```
 
 ### Auto push
-You can auto push your changes by setting `SEXY_COMMITS_AUTO_PUSH` to **1** in your .env file.
+You can auto push your changes by setting `SEXY_COMMITS_AUTO_PUSH` to `1` in your .env file.
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#contributors)
