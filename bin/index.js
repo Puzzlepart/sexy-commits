@@ -96,8 +96,7 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
-	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
-	console.log({ autoPush })
+	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH && process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const prompts = await inquirer.prompt([
 		{
 			type: 'input',
@@ -132,10 +131,11 @@ async function run() {
 			type: 'confirm',
 			name: 'push',
 			message: 'Do you want to push the changes right away?',
-			default: true
+			default: true,
+			when: autoPush === undefined
 		}
 	])
-	const input = Object.assign(args, prompts)
+	const input = Object.assign({ args, push: autoPush }, prompts)
 	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
 	try {
 		await (input.addPattern === 'all'
