@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 'use strict'
+require('dotenv').config()
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
-const {promisify} = require('util')
+const { promisify } = require('util')
 const chalk = require('chalk')
 const log = console.log
 const fs = require('fs')
 const path = require('path')
 const packageJson = require(process.env.PWD + '/package.json')
-const {gitmoji: defaultConfig} = require('./defaultConfig.json')
-const {exec} = require('child_process')
+const { gitmoji: defaultConfig } = require('./defaultConfig.json')
+const { exec } = require('child_process')
 const execAsync = promisify(exec)
 const writeFileAsync = promisify(fs.writeFile)
 const yargs = require('yargs/yargs')
-const {hideBin} = require('yargs/helpers')
+const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 /**
@@ -66,9 +67,9 @@ function parseArgs(gitmoji) {
  * Commit changes using arguments and prompts
  */
 async function run() {
-	let {gitmoji} = packageJson
+	let { gitmoji } = packageJson
 	if (!gitmoji) {
-		const {addDefaults} = await inquirer.prompt([
+		const { addDefaults } = await inquirer.prompt([
 			{
 				type: 'confirm',
 				name: 'addDefaults',
@@ -95,6 +96,8 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
+	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
+	console.log({ autoPush })
 	const prompts = await inquirer.prompt([
 		{
 			type: 'input',
