@@ -83,7 +83,7 @@ async function run() {
 			process.exit(0)
 		}
 
-		const newPackageJson = {	
+		const newPackageJson = {
 			...packageJson,
 			gitmoji: defaultConfig
 		}
@@ -130,7 +130,7 @@ async function run() {
 		{
 			type: 'confirm',
 			name: 'fixesIssue',
-			message:(answers) => `Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
+			message: (answers) => `Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
 			when: (answers) => !!answers.issueRef,
 		},
 		{
@@ -138,6 +138,13 @@ async function run() {
 			name: 'message',
 			message: 'A short summary of what you changed:',
 			when: !args.message
+		},
+		{
+			type: 'confirm',
+			name: 'skipCi',
+			message: 'Do you want to skip CI for this commit?',
+			default: false,
+			when: !!process.env.SEXY_COMMITS_SKIP_CI_TAG
 		},
 		{
 			type: 'confirm',
@@ -156,8 +163,11 @@ async function run() {
 		if (gitmoji[input.commitType]) {
 			commitMessage += ` ${gitmoji[input.commitType][0]}`
 		}
-		if(input.issueRef) {
+		if (input.issueRef) {
 			commitMessage += ` #${input.issueRef}`
+		}
+		if(input.skipCi) {
+			commitMessage += ` [${process.env.SEXY_COMMITS_SKIP_CI_TAG}]`
 		}
 
 		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
