@@ -123,6 +123,18 @@ async function run() {
 		},
 		{
 			type: 'input',
+			name: 'issueRef',
+			message: 'Do you want to reference an issue in the commit message?',
+			when: !args.issueRef
+		},
+		{
+			type: 'confirm',
+			name: 'fixesIssue',
+			message:(answers) => `Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
+			when: (answers) => !!answers.issueRef,
+		},
+		{
+			type: 'input',
 			name: 'message',
 			message: 'A short summary of what you changed:',
 			when: !args.message
@@ -143,6 +155,9 @@ async function run() {
 			: execAsync(`git add "*${input.addPattern}*"`))
 		if (gitmoji[input.commitType]) {
 			commitMessage += ` ${gitmoji[input.commitType][0]}`
+		}
+		if(input.issueRef) {
+			commitMessage += ` #${input.issueRef}`
 		}
 
 		await execAsync(`git commit -m "${commitMessage}" --no-verify`)

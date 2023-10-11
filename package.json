@@ -1,13 +1,13 @@
 {
   "name": "sexy-commits",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Sexy commits using gitmoji.dev and inquirer-autocomplete-prompt",
   "main": "bin/index.js",
   "bin": {
     "sexy-commits": "bin/index.js"
   },
   "scripts": {
-    "commit": "node ./commit.js",
+    "commit": "node ./bin/index.js",
     "postversion": "npx @appnest/readme generate && git add --all && git commit --amend && git push && npm publish",
     "xo": "xo --fix --semicolon false --prettier true"
   },
