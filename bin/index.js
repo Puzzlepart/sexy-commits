@@ -3,18 +3,18 @@
 require('dotenv').config()
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
-const {promisify} = require('util')
+const { promisify } = require('util')
 const chalk = require('chalk')
 const log = console.log
 const fs = require('fs')
 const path = require('path')
 const packageJson = require(process.env.PWD + '/package.json')
-const {gitmoji: defaultConfig} = require('./defaultConfig.json')
-const {exec} = require('child_process')
+const { gitmoji: defaultConfig } = require('./defaultConfig.json')
+const { exec } = require('child_process')
 const execAsync = promisify(exec)
 const writeFileAsync = promisify(fs.writeFile)
 const yargs = require('yargs/yargs')
-const {hideBin} = require('yargs/helpers')
+const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 /**
@@ -67,9 +67,9 @@ function parseArgs(gitmoji) {
  * Commit changes using arguments and prompts
  */
 async function run() {
-	let {gitmoji} = packageJson
+	let { gitmoji } = packageJson
 	if (!gitmoji) {
-		const {addDefaults} = await inquirer.prompt([
+		const { addDefaults } = await inquirer.prompt([
 			{
 				type: 'confirm',
 				name: 'addDefaults',
@@ -156,7 +156,7 @@ async function run() {
 			when: !autoPush
 		}
 	])
-	const input = Object.assign({...args, push: autoPush}, prompts)
+	const input = Object.assign({ ...args, push: autoPush }, prompts)
 	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
 	try {
 		await (input.addPattern === 'all'
@@ -167,7 +167,11 @@ async function run() {
 		}
 
 		if (input.issueRef) {
-			commitMessage += ` #${input.issueRef}`
+			if (input.fixesIssue) {
+				commitMessage += ` (closes #${input.issueRef})`
+			} else {
+				commitMessage += ` #${input.issueRef}`
+			}
 		}
 
 		if (input.skipCi) {
