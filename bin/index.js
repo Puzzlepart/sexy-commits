@@ -3,18 +3,18 @@
 require('dotenv').config()
 const inquirer = require('inquirer')
 inquirer.registerPrompt('autocomplete', require('inquirer-autocomplete-prompt'))
-const { promisify } = require('util')
+const {promisify} = require('util')
 const chalk = require('chalk')
 const log = console.log
 const fs = require('fs')
 const path = require('path')
 const packageJson = require(process.env.PWD + '/package.json')
-const { gitmoji: defaultConfig } = require('./defaultConfig.json')
-const { exec } = require('child_process')
+const {gitmoji: defaultConfig} = require('./defaultConfig.json')
+const {exec} = require('child_process')
 const execAsync = promisify(exec)
 const writeFileAsync = promisify(fs.writeFile)
 const yargs = require('yargs/yargs')
-const { hideBin } = require('yargs/helpers')
+const {hideBin} = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
 
 /**
@@ -67,9 +67,9 @@ function parseArgs(gitmoji) {
  * Commit changes using arguments and prompts
  */
 async function run() {
-	let { gitmoji } = packageJson
+	let {gitmoji} = packageJson
 	if (!gitmoji) {
-		const { addDefaults } = await inquirer.prompt([
+		const {addDefaults} = await inquirer.prompt([
 			{
 				type: 'confirm',
 				name: 'addDefaults',
@@ -97,6 +97,7 @@ async function run() {
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
+	const skipCiTag = process.env.SEXY_COMMITS_SKIP_CI_TAG
 	const prompts = await inquirer.prompt([
 		{
 			type: 'input',
@@ -130,8 +131,9 @@ async function run() {
 		{
 			type: 'confirm',
 			name: 'fixesIssue',
-			message: (answers) => `Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
-			when: (answers) => !!answers.issueRef,
+			message: (answers) =>
+				`Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
+			when: (answers) => Boolean(answers.issueRef)
 		},
 		{
 			type: 'input',
@@ -144,7 +146,7 @@ async function run() {
 			name: 'skipCi',
 			message: 'Do you want to skip CI for this commit?',
 			default: false,
-			when: !!process.env.SEXY_COMMITS_SKIP_CI_TAG
+			when: Boolean(skipCiTag)
 		},
 		{
 			type: 'confirm',
@@ -154,7 +156,7 @@ async function run() {
 			when: !autoPush
 		}
 	])
-	const input = Object.assign({ ...args, push: autoPush }, prompts)
+	const input = Object.assign({...args, push: autoPush}, prompts)
 	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
 	try {
 		await (input.addPattern === 'all'
@@ -163,11 +165,13 @@ async function run() {
 		if (gitmoji[input.commitType]) {
 			commitMessage += ` ${gitmoji[input.commitType][0]}`
 		}
+
 		if (input.issueRef) {
 			commitMessage += ` #${input.issueRef}`
 		}
-		if(input.skipCi) {
-			commitMessage += ` [${process.env.SEXY_COMMITS_SKIP_CI_TAG}]`
+
+		if (input.skipCi) {
+			commitMessage += ` [${skipCiTag}]`
 		}
 
 		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
