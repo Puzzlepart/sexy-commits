@@ -159,6 +159,15 @@ async function run() {
 	const input = Object.assign({ ...args, push: autoPush }, prompts)
 	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
 	try {
+		if (process.env.SEXY_COMMITS_LINT_CMD) {
+			try {
+				log(chalk.cyan('Linting your changes with the command specified in your .env file...'))
+				await execAsync(process.env.SEXY_COMMITS_LINT_CMD)
+			}
+			catch {
+				log(chalk.red('An error occured while linting your changes.'))
+			}
+		}
 		await (input.addPattern === 'all'
 			? execAsync('git add --all')
 			: execAsync(`git add "*${input.addPattern}*"`))
