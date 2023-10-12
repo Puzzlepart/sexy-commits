@@ -161,7 +161,8 @@ async function run() {
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
 			try {
-				log(chalk.cyan('Linting your changes with the command specified in your .env file...'))
+				console.log('')
+				log(chalk.magenta('Linting your changes with the command specified in your .env file...'))
 				await execAsync(process.env.SEXY_COMMITS_LINT_CMD)
 			}
 			catch {

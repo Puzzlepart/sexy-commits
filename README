@@ -125,4 +125,12 @@ If you want to add skip ci tag to your commit, set the `SEXY_COMMITS_SKIP_CI_TAG
 SEXY_COMMITS_SKIP_CI_TAG=[skip-ci]
 ```
 
+### Lint your changes before commiting
+By specifying `SEXY_COMMITS_LINT_CMD` in your .env file, we can lint your changes before commiting (e.g. with [ESLint](https://eslint.org/)).
+
+
+#### Example 
+```Dotenv
+SEXY_COMMITS_LINT_CMD=npm run-script lint
+```
 [[template:contributors]] 

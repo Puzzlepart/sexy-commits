@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.3.11-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.3.12-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -136,6 +136,14 @@ If you want to add skip ci tag to your commit, set the `SEXY_COMMITS_SKIP_CI_TAG
 SEXY_COMMITS_SKIP_CI_TAG=[skip-ci]
 ```
 
+### Lint your changes before commiting
+By specifying `SEXY_COMMITS_LINT_CMD` in your .env file, we can lint your changes before commiting (e.g. with [ESLint](https://eslint.org/)).
+
+
+#### Example 
+```Dotenv
+SEXY_COMMITS_LINT_CMD=npm run-script lint
+```
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)](#contributors)
 
