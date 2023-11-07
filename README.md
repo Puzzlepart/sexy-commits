@@ -1,5 +1,5 @@
 <!-- ⚠️ This README has been generated from the file(s) "README" ⚠️--><p align="center">
-  <img src="logo.png" alt="Logo" width="323" height="113" />
+  <img src="https://github.com/Puzzlepart/sexy-commits/assets/7606007/ba9e4d02-d54c-4e40-81ee-57bcfed4c1ea" alt="Logo" width="323" height="113" />
 </p> <p align="center">
   <b>Sexy commits using gitmoji.dev and inquirer-autocomplete-prompt</b></br>
   <sub><sub>
