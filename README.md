@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.3.12-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.3.13-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 
@@ -155,3 +155,10 @@ SEXY_COMMITS_LINT_CMD=npm run-script lint
 | [Ole Martin Pettersen](undefined)                | [Carl Joakim Damsleth](undefined)                |
 | [olemp@puzzlepart.com](mailto:olemp@puzzlepart.com) | [carl.joakim.damsleth@puzzlepart.com](mailto:carl.joakim.damsleth@puzzlepart.com) |
  
+
+### Working with issues
+You can automatically tag and/or close issues automatically when commiting with `sexy-commits`.
+
+By specifying `SEXY_COMMITS_ISSUE_REF` in your .env file, the commit will automatically tag the issue. Do not specify the issue number with the #.
+
+By also providing `SEXY_COMMITS_FIXES_ISSUE`, the issue will automatically be closed when commiting.

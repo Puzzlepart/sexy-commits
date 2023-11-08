@@ -134,3 +134,10 @@ By specifying `SEXY_COMMITS_LINT_CMD` in your .env file, we can lint your change
 SEXY_COMMITS_LINT_CMD=npm run-script lint
 ```
 [[template:contributors]] 
+
+### Working with issues
+You can automatically tag and/or close issues automatically when commiting with `sexy-commits`.
+
+By specifying `SEXY_COMMITS_ISSUE_REF` in your .env file, the commit will automatically tag the issue. Do not specify the issue number with the #.
+
+By also providing `SEXY_COMMITS_FIXES_ISSUE`, the issue will automatically be closed when commiting.

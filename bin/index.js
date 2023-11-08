@@ -97,6 +97,8 @@ async function run() {
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
+	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
+	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1'
 	const skipCiTag = process.env.SEXY_COMMITS_SKIP_CI_TAG
 	const prompts = await inquirer.prompt([
 		{
@@ -126,14 +128,14 @@ async function run() {
 			type: 'input',
 			name: 'issueRef',
 			message: 'Do you want to reference an issue in the commit message?',
-			when: !args.issueRef
+			when: !args.issueRef && !issueRef
 		},
 		{
 			type: 'confirm',
 			name: 'fixesIssue',
 			message: (answers) =>
 				`Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
-			when: (answers) => Boolean(answers.issueRef)
+			when: (answers) => Boolean(answers.issueRef) && !args.fixesIssue && !fixesIssue
 		},
 		{
 			type: 'input',
@@ -156,8 +158,13 @@ async function run() {
 			when: !autoPush
 		}
 	])
-	const input = Object.assign({ ...args, push: autoPush }, prompts)
-	let commitMessage = `${input.commitType}: ${input.message.toLowerCase()}`
+	const mergedInput = Object.assign({
+		...args,
+		push: autoPush,
+		issueRef,
+		fixesIssue
+	}, prompts)
+	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
 			try {
@@ -169,27 +176,27 @@ async function run() {
 				log(chalk.red('An error occured while linting your changes.'))
 			}
 		}
-		await (input.addPattern === 'all'
+		await (mergedInput.addPattern === 'all'
 			? execAsync('git add --all')
-			: execAsync(`git add "*${input.addPattern}*"`))
-		if (gitmoji[input.commitType]) {
-			commitMessage += ` ${gitmoji[input.commitType][0]}`
+			: execAsync(`git add "*${mergedInput.addPattern}*"`))
+		if (gitmoji[mergedInput.commitType]) {
+			commitMessage += ` ${gitmoji[mergedInput.commitType][0]}`
 		}
 
-		if (input.issueRef) {
-			if (input.fixesIssue) {
-				commitMessage += ` (closes #${input.issueRef})`
+		if (mergedInput.issueRef) {
+			if (mergedInput.fixesIssue) {
+				commitMessage += ` (closes #${mergedInput.issueRef})`
 			} else {
-				commitMessage += ` #${input.issueRef}`
+				commitMessage += ` #${mergedInput.issueRef}`
 			}
 		}
 
-		if (input.skipCi) {
+		if (mergedInput.skipCi) {
 			commitMessage += ` [${skipCiTag}]`
 		}
 
 		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
-		if (input.push) {
+		if (mergedInput.push) {
 			await execAsync('git pull')
 			await execAsync('git push')
 		}
