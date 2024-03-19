@@ -146,7 +146,7 @@ async function run() {
 			type: 'input',
 			name: 'issueRef',
 			message: 'Do you want to reference an issue in the commit message?',
-			when: !args.issueRef && !issueRef
+			when: !args.issueRef && !issueRef && process.env.SEXY_COMMITS_NO_ISSUE_REF !== '1'
 		},
 		{
 			type: 'confirm',
