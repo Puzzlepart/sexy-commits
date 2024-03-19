@@ -69,7 +69,7 @@ function parseArgs(gitmoji) {
 async function run() {
 	let { gitmoji } = packageJson
 	if (!gitmoji) {
-		const { addDefaults } = await inquirer.prompt([
+		const { addDefaults, jsonFile } = await inquirer.prompt([
 			{
 				type: 'confirm',
 				name: 'addDefaults',
@@ -77,12 +77,26 @@ async function run() {
 					'gitmoji'
 				)} config in your package.json. Add defaults? 🤝`,
 				default: true
+			},
+			{
+				type: 'confirm',
+				name: 'jsonFile',
+				message: `Do you want to use a ${chalk.cyan(
+					'.gitmoji.json'
+				)} file instead?`,
+				when: (answers) => !answers.addDefaults
 			}
 		])
-		if (!addDefaults) {
+		if (!addDefaults && !jsonFile) {
 			process.exit(0)
 		}
 
+		if (jsonFile) {
+			await writeFileAsync(
+				path.resolve(process.cwd(), '.gitmoji.json'),
+				JSON.stringify(defaultConfig, null, 2)
+			)
+		} else {
 		const newPackageJson = {
 			...packageJson,
 			gitmoji: defaultConfig
@@ -91,6 +105,7 @@ async function run() {
 			path.resolve(process.env.PWD, 'package.json'),
 			JSON.stringify(newPackageJson, null, 2)
 		)
+		}
 		gitmoji = defaultConfig
 	}
 
