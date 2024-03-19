@@ -68,6 +68,9 @@ function parseArgs(gitmoji) {
  */
 async function run() {
 	let { gitmoji } = packageJson
+	if(!gitmoji && fs.existsSync(path.resolve(process.cwd(), '.gitmoji.json'))) {
+		gitmoji = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), '.gitmoji.json'), 'utf8'))
+	}
 	if (!gitmoji) {
 		const { addDefaults, jsonFile } = await inquirer.prompt([
 			{
