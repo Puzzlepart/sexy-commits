@@ -52,8 +52,6 @@ function parseArgs(gitmoji) {
 			process.exit(0)
 		}
 
-		console.log(argv._, argv)
-
 		return {
 			addPattern,
 			commitType: commitType_,
@@ -178,15 +176,12 @@ async function run() {
 			when: !autoPush
 		}
 	])
-	console.log(JSON.stringify(args, null, 2))
 	const mergedInput = Object.assign({
 		...args,
 		push: autoPush,
 		issueRef,
 		fixesIssue
 	}, prompts)
-	console.log(JSON.stringify(mergedInput, null, 2))
-	debugger;
 	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
