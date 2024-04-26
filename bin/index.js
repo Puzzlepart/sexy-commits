@@ -177,6 +177,7 @@ async function run() {
 			when: !autoPush
 		}
 	])
+	console.log(JSON.stringify(args, null, 2))
 	const mergedInput = Object.assign({
 		...args,
 		push: autoPush,
