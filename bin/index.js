@@ -55,7 +55,8 @@ function parseArgs(gitmoji) {
 		return {
 			addPattern,
 			commitType: commitType_,
-			message
+			message,
+			flags
 		}
 	} catch {
 		log(chalk.yellow("We couldn't parse your arguments 😞"))
@@ -68,7 +69,7 @@ function parseArgs(gitmoji) {
  */
 async function run() {
 	let { gitmoji } = packageJson
-	if(!gitmoji && fs.existsSync(path.resolve(process.cwd(), '.gitmoji.json'))) {
+	if (!gitmoji && fs.existsSync(path.resolve(process.cwd(), '.gitmoji.json'))) {
 		gitmoji = JSON.parse(fs.readFileSync(path.resolve(process.cwd(), '.gitmoji.json'), 'utf8'))
 	}
 	if (!gitmoji) {
@@ -100,14 +101,14 @@ async function run() {
 				JSON.stringify(defaultConfig, null, 2)
 			)
 		} else {
-		const newPackageJson = {
-			...packageJson,
-			gitmoji: defaultConfig
-		}
-		await writeFileAsync(
-			path.resolve(process.env.PWD, 'package.json'),
-			JSON.stringify(newPackageJson, null, 2)
-		)
+			const newPackageJson = {
+				...packageJson,
+				gitmoji: defaultConfig
+			}
+			await writeFileAsync(
+				path.resolve(process.env.PWD, 'package.json'),
+				JSON.stringify(newPackageJson, null, 2)
+			)
 		}
 		gitmoji = defaultConfig
 	}
@@ -211,6 +212,12 @@ async function run() {
 
 		if (mergedInput.skipCi) {
 			commitMessage += ` [${skipCiTag}]`
+		}
+
+		let commitCmd = `git commit -m "${commitMessage}" --no-verify`
+
+		if(mergedInput.amend) {
+			commitCmd += ' --amend'
 		}
 
 		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
