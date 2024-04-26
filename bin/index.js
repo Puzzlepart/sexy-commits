@@ -52,11 +52,12 @@ function parseArgs(gitmoji) {
 			process.exit(0)
 		}
 
+		console.log(argv._, argv)
+
 		return {
 			addPattern,
 			commitType: commitType_,
-			message,
-			flags
+			message
 		}
 	} catch {
 		log(chalk.yellow("We couldn't parse your arguments 😞"))
