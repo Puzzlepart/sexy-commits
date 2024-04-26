@@ -184,6 +184,7 @@ async function run() {
 		fixesIssue
 	}, prompts)
 	console.log(JSON.stringify(mergedInput, null, 2))
+	debugger;
 	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
