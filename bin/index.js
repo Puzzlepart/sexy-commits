@@ -213,12 +213,16 @@ async function run() {
 			commitMessage += ` [${skipCiTag}]`
 		}
 
-		let commitCmd = `git commit -m "${commitMessage}" --no-verify`
+		let commitCmd = `git commit -m "${commitMessage}"`
 
+		if(mergedInput.details) {
+			commitCmd += ` -m "${mergedInput.details}"`
+		}
+		commitCmd += ' --no-verify'
 		if (mergedInput.amend) {
 			commitCmd += ' --amend'
 		}
-		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
+		await execAsync(commitCmd)
 		if (mergedInput.push) {
 			await execAsync('git pull')
 			await execAsync('git push')
