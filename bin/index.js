@@ -165,6 +165,7 @@ async function run() {
 			type: 'input',
 			name: 'details',
 			message: 'Any additional details you want to include in the commit message:'
+		},
 		{
 			type: 'confirm',
 			name: 'skipCi',
