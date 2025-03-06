@@ -25,6 +25,7 @@ const argv = yargs(hideBin(process.argv)).argv
  * @returns `addPattern`, `commitType` and `message`
  */
 function parseArgs(gitmoji) {
+	console.log(argv._, argv, gitmoji)
 	try {
 		const types = Object.keys(gitmoji)
 		const [addPattern, commitType, ...message_] = argv._
