@@ -83,7 +83,7 @@ async function run() {
 			process.exit(0)
 		}
 
-		const newPackageJson = {	
+		const newPackageJson = {
 			...packageJson,
 			gitmoji: defaultConfig
 		}
@@ -145,7 +145,13 @@ async function run() {
 			commitMessage += ` ${gitmoji[input.commitType][0]}`
 		}
 
-		await execAsync(`git commit -m "${commitMessage}" --no-verify`)
+		let commitCmd = `git commit -m "${commitMessage}" --no-verify`
+
+		if (argv.amend) {
+			commitCmd += ' --amend'
+		}
+
+		await execAsync(commitCmd)
 		if (input.push) {
 			await execAsync('git pull')
 			await execAsync('git push')
