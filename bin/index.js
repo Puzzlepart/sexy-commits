@@ -165,7 +165,7 @@ async function run() {
 			type: 'input',
 			name: 'details',
 			message: 'Any additional details you want to include in the commit message:',
-			when: !args.details && process.env.SEXY_COMMITS_DETAILS === '1'
+			when: !args.details
 		},
 		{
 			type: 'confirm',
