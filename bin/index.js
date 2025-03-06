@@ -16,6 +16,7 @@ const writeFileAsync = promisify(fs.writeFile)
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const argv = yargs(hideBin(process.argv)).argv
+const _ = require('lodash')
 
 /**
  * Parse args using `argv`
@@ -25,16 +26,16 @@ const argv = yargs(hideBin(process.argv)).argv
  * @returns `addPattern`, `commitType` and `message`
  */
 function parseArgs(gitmoji) {
-	console.log(argv._, argv, gitmoji)
 	try {
 		const types = Object.keys(gitmoji)
 		const [addPattern, commitType, ...message_] = argv._
 		const message = message_.join(' ')
 		if (!commitType || types.includes(commitType)) {
 			return {
+				..._.omit(argv, ['_', '$0']),
 				addPattern,
 				commitType,
-				message
+				message,
 			}
 		}
 
@@ -54,6 +55,7 @@ function parseArgs(gitmoji) {
 		}
 
 		return {
+			..._.omit(argv, ['_', '$0']),
 			addPattern,
 			commitType: commitType_,
 			message
@@ -119,6 +121,7 @@ async function run() {
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
 	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1'
 	const skipCiTag = process.env.SEXY_COMMITS_SKIP_CI_TAG
+	const includeDetails = process.env.SEXY_COMMITS_INCLUDE_DETAILS === '1'
 	const prompts = await inquirer.prompt([
 		{
 			type: 'input',
@@ -166,7 +169,7 @@ async function run() {
 			type: 'input',
 			name: 'details',
 			message: 'Any additional details you want to include in the commit message:',
-			when: !args.details
+			when: !args.details && includeDetails
 		},
 		{
 			type: 'confirm',
