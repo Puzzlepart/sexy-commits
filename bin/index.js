@@ -162,6 +162,12 @@ async function run() {
 			when: !args.message
 		},
 		{
+			type: 'input',
+			name: 'details',
+			message: 'Any additional details you want to include in the commit message:',
+			when: !args.details && process.env.SEXY_COMMITS_DETAILS === '1'
+		},
+		{
 			type: 'confirm',
 			name: 'skipCi',
 			message: 'Do you want to skip CI for this commit?',
@@ -215,10 +221,12 @@ async function run() {
 
 		let commitCmd = `git commit -m "${commitMessage}"`
 
-		if(mergedInput.details) {
+		if (mergedInput.details) {
 			commitCmd += ` -m "${mergedInput.details}"`
 		}
+
 		commitCmd += ' --no-verify'
+
 		if (mergedInput.amend) {
 			commitCmd += ' --amend'
 		}
