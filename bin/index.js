@@ -19,11 +19,39 @@ const argv = yargs(hideBin(process.argv)).argv
 const _ = require('lodash')
 
 /**
+ * Parse argument flag
+ * 
+ * @param {*} arg Argument to parse
+ */
+function parseArgFlag(arg) {
+	return (arg && arg !== 'false' && arg !== '0')
+}
+
+/**
+ * Parse additional args from `argv`
+ * 
+ * @returns additional args from argv
+ */
+function parseAdditonalArgs() {
+	const additionalArgs = _.omit(argv, ['_', '$0'])
+
+	if (additionalArgs['fixesIssue'] != undefined) {
+		additionalArgs.fixesIssue =parseArgFlag(additionalArgs.fixesIssue)
+	}
+	if (additionalArgs['push'] != undefined) {
+		additionalArgs.push = parseArgFlag(additionalArgs.push)
+	}
+
+	return additionalArgs
+}
+
+/**
  * Parse args using `argv`
  *
  * @param gitmoji - Gitmoji config
  *
- * @returns `addPattern`, `commitType` and `message`
+ * @returns `addPattern`, `commitType`, `message` aswell
+ * as additional args from `parseAdditonalArgs`
  */
 function parseArgs(gitmoji) {
 	try {
@@ -32,7 +60,7 @@ function parseArgs(gitmoji) {
 		const message = message_.join(' ')
 		if (!commitType || types.includes(commitType)) {
 			return {
-				..._.omit(argv, ['_', '$0']),
+				...parseAdditonalArgs(),
 				addPattern,
 				commitType,
 				message,
@@ -54,15 +82,8 @@ function parseArgs(gitmoji) {
 			process.exit(0)
 		}
 
-		const additionalArgs = _.omit(argv, ['_', '$0'])
-
-		if (additionalArgs['fixesIssue'] != undefined) {
-			additionalArgs.fixesIssue = (additionalArgs.fixesIssue && additionalArgs.fixesIssue !== 'false' && additionalArgs.fixesIssue !== '0')
-			console.log('fixesIssue', additionalArgs.fixesIssue)
-		}
-
 		return {
-			...additionalArgs,
+			...parseAdditonalArgs(),
 			addPattern,
 			commitType: commitType_,
 			message
@@ -165,7 +186,7 @@ async function run() {
 			name: 'fixesIssue',
 			message: (answers) =>
 				`Do you want to automatically close #${answers.issueRef ?? args.issueRef} when the commit is pushed?`,
-			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && args.fixesIssue != undefined
+			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && args.fixesIssue === undefined
 		},
 		{
 			type: 'input',
@@ -191,7 +212,7 @@ async function run() {
 			name: 'push',
 			message: 'Do you want to push the changes right away?',
 			default: true,
-			when: !autoPush
+			when: !autoPush && args.push === undefined
 		}
 	])
 	const mergedInput = Object.assign({
