@@ -58,6 +58,7 @@ function parseArgs(gitmoji) {
 
 		if (additionalArgs['fixesIssue'] != undefined) {
 			additionalArgs.fixesIssue = (additionalArgs.fixesIssue && additionalArgs.fixesIssue !== 'false' && additionalArgs.fixesIssue !== '0')
+			console.log('fixesIssue', additionalArgs.fixesIssue)
 		}
 
 		return {
