@@ -117,6 +117,7 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
+	console.log(args)
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
 	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1'
