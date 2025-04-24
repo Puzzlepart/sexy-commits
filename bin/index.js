@@ -54,8 +54,14 @@ function parseArgs(gitmoji) {
 			process.exit(0)
 		}
 
+		const additionalArgs = _.omit(argv, ['_', '$0'])
+
+		if (additionalArgs['fixesIssue']) {
+			additionalArgs.fixesIssue = additionalArgs.fixesIssue && additionalArgs.fixesIssue !== 'false' && additionalArgs.fixesIssue !== '0'
+		}
+
 		return {
-			..._.omit(argv, ['_', '$0']),
+			...additionalArgs,
 			addPattern,
 			commitType: commitType_,
 			message
@@ -117,10 +123,10 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
-	console.log({args})
+	console.log({ args })
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
-	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1' || args.fixesIssue === '1'
+	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1' || args.fixesIssue
 	const skipCiTag = process.env.SEXY_COMMITS_SKIP_CI_TAG
 	const includeDetails = process.env.SEXY_COMMITS_INCLUDE_DETAILS === '1'
 	const prompts = await inquirer.prompt([
