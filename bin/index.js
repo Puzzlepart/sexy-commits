@@ -193,8 +193,17 @@ async function run() {
 		issueRef,
 		fixesIssue
 	}, prompts)
-	console.log(mergedInput)
-	debugger;
+	console.log({
+		args: {
+			...args,
+			push: autoPush,
+			issueRef,
+			fixesIssue
+		},
+		mergedInput,
+		prompts
+	})
+	return;
 	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
