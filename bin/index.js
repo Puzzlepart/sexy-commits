@@ -117,10 +117,9 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
-	console.log(args)
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
-	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1'
+	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1' || args.fixesIssue === '1'
 	const skipCiTag = process.env.SEXY_COMMITS_SKIP_CI_TAG
 	const includeDetails = process.env.SEXY_COMMITS_INCLUDE_DETAILS === '1'
 	const prompts = await inquirer.prompt([
@@ -158,7 +157,7 @@ async function run() {
 			name: 'fixesIssue',
 			message: (answers) =>
 				`Do you want to automatically close #${answers.issueRef ?? args.issueRef} when the commit is pushed?`,
-			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && !args.fixesIssue
+			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && fixesIssue != undefined
 		},
 		{
 			type: 'input',
@@ -191,14 +190,14 @@ async function run() {
 		...args,
 		push: autoPush,
 		issueRef: args.issueRef ?? issueRef,
-		fixesIssue: args.fixesIssue !== undefined ? Boolean(args.fixesIssue) : fixesIssue
+		fixesIssue
 	}, prompts)
 	console.log({
 		args: {
 			...args,
 			push: autoPush,
 			issueRef: args.issueRef ?? issueRef,
-			fixesIssue: args.fixesIssue !== undefined ? Boolean(args.fixesIssue) : fixesIssue
+			fixesIssue
 		},
 		mergedInput,
 		prompts
