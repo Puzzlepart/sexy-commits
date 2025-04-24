@@ -117,6 +117,7 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
+	console.log({args})
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
 	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1' || args.fixesIssue === '1'
@@ -157,7 +158,7 @@ async function run() {
 			name: 'fixesIssue',
 			message: (answers) =>
 				`Do you want to automatically close #${answers.issueRef ?? args.issueRef} when the commit is pushed?`,
-			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && fixesIssue != undefined
+			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && args.fixesIssue != undefined
 		},
 		{
 			type: 'input',
