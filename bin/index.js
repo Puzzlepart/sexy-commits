@@ -190,15 +190,15 @@ async function run() {
 	const mergedInput = Object.assign({
 		...args,
 		push: autoPush,
-		issueRef,
-		fixesIssue
+		issueRef: args.issueRef ?? issueRef,
+		fixesIssue: args.fixesIssue !== undefined ? Boolean(args.fixesIssue) : fixesIssue
 	}, prompts)
 	console.log({
 		args: {
 			...args,
 			push: autoPush,
-			issueRef,
-			fixesIssue
+			issueRef: args.issueRef ?? issueRef,
+			fixesIssue: args.fixesIssue !== undefined ? Boolean(args.fixesIssue) : fixesIssue
 		},
 		mergedInput,
 		prompts
