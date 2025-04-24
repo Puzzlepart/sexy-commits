@@ -157,7 +157,7 @@ async function run() {
 			type: 'confirm',
 			name: 'fixesIssue',
 			message: (answers) =>
-				`Do you want to automatically close #${answers.issueRef} when the commit is pushed?`,
+				`Do you want to automatically close #${answers.issueRef ?? args.issueRef} when the commit is pushed?`,
 			when: (answers) => Boolean(answers.issueRef) || issueRef || args.issueRef
 		},
 		{
