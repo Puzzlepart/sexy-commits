@@ -158,7 +158,7 @@ async function run() {
 			name: 'fixesIssue',
 			message: (answers) =>
 				`Do you want to automatically close #${answers.issueRef ?? args.issueRef} when the commit is pushed?`,
-			when: (answers) => Boolean(answers.issueRef) || issueRef || args.issueRef
+			when: (answers) => (Boolean(answers.issueRef) || issueRef || args.issueRef) && !args.fixesIssue
 		},
 		{
 			type: 'input',
@@ -193,6 +193,8 @@ async function run() {
 		issueRef,
 		fixesIssue
 	}, prompts)
+	console.log(mergedInput)
+	debugger;
 	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
