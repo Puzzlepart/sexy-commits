@@ -145,7 +145,6 @@ async function run() {
 
 	const types = Object.keys(gitmoji)
 	const args = parseArgs(gitmoji)
-	console.log({ args })
 	const autoPush = process.env.SEXY_COMMITS_AUTO_PUSH === '1'
 	const issueRef = process.env.SEXY_COMMITS_ISSUE_REF
 	const fixesIssue = process.env.SEXY_COMMITS_FIXES_ISSUE === '1' || args.fixesIssue
@@ -221,17 +220,6 @@ async function run() {
 		issueRef: args.issueRef ?? issueRef,
 		fixesIssue
 	}, prompts)
-	console.log({
-		args: {
-			...args,
-			push: autoPush,
-			issueRef: args.issueRef ?? issueRef,
-			fixesIssue
-		},
-		mergedInput,
-		prompts
-	})
-	return;
 	let commitMessage = `${mergedInput.commitType}: ${mergedInput.message.toLowerCase()}`
 	try {
 		if (process.env.SEXY_COMMITS_LINT_CMD) {
