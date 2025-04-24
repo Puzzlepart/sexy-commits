@@ -216,7 +216,7 @@ async function run() {
 	])
 	const mergedInput = Object.assign({
 		...args,
-		push: autoPush,
+		push: autoPush || args.push,
 		issueRef: args.issueRef ?? issueRef,
 		fixesIssue
 	}, prompts)
