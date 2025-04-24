@@ -8,7 +8,7 @@
 <br />
 
 
-[![version](https://img.shields.io/badge/version-0.4.5-8-green.svg)](https://semver.org)
+[![version](https://img.shields.io/badge/version-0.4.5-9-green.svg)](https://semver.org)
 
 Sexy commits using your config from `package.json`.
 

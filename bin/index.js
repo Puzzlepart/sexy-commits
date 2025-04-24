@@ -177,7 +177,7 @@ async function run() {
 			name: 'skipCi',
 			message: 'Do you want to skip CI for this commit?',
 			default: false,
-			when: Boolean(skipCiTag)
+			when: Boolean(skipCiTag) && !args.skipCi
 		},
 		{
 			type: 'confirm',
